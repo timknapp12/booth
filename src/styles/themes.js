@@ -1,6 +1,13 @@
-import { blueLight, bluePrimary } from './colors';
+import {
+  blueLightBackground,
+  bluePrimaryBackground,
+  bluePrimaryButton,
+  white,
+} from './colors';
 
 export const lightTheme = {
-  primary: bluePrimary,
-  primaryLight: blueLight,
+  primaryHeaderBackground: bluePrimaryBackground,
+  secondaryHeaderBackground: blueLightBackground,
+  primaryButton: bluePrimaryButton,
+  primaryBackground: white,
 };

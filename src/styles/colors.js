@@ -1,3 +1,7 @@
-export const bluePrimary = '#0288D1';
+export const bluePrimaryBackground = '#B3E5FC';
 
-export const blueLight = '#B3E5FC';
+export const blueLightBackground = '#E1F5FE';
+
+export const bluePrimaryButton = '#03A9F4';
+
+export const white = '#FFFFFF';
