@@ -3,16 +3,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { lightTheme } from './src/styles/themes';
 import { Header } from './src/components';
+import AppContextProvider from './src/contexts/AppContext';
 
 export default function App() {
   return (
     <ThemeProvider theme={lightTheme}>
-      <View style={styles.container}>
-        <Header>
-          <Text>Open up App.js to start working on your app!</Text>
-        </Header>
-        <StatusBar style='auto' />
-      </View>
+      <AppContextProvider>
+        <View style={styles.container}>
+          <Header title='booth' subTitle='A catalyst for connection' />
+          <StatusBar style='auto' />
+        </View>
+      </AppContextProvider>
     </ThemeProvider>
   );
 }
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
 });
