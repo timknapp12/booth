@@ -9,3 +9,8 @@ export const HeaderTextSmall = styled.Text`
   font-size: 16px;
   color: ${({ theme }) => theme.primaryButton};
 `;
+
+export const PrimaryButtonText = styled.Text`
+  font-size: 16px;
+  color: ${({ theme }) => theme.primaryBackground};
+`;
