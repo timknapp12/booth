@@ -1,18 +1,28 @@
-// import React from 'react';
-import { TextInput } from 'react-native';
-import { ScreenContainer, Header, Button, Column } from '../components';
+import {
+  ScreenContainer,
+  Header,
+  Button,
+  Column,
+  Input,
+  Gap,
+} from '../components';
 
 const LoginScreen = () => {
   return (
     <ScreenContainer>
       <Header title='booth' subTitle='A catalyst for connection' />
+      <Gap />
       <Column
         $width='80%'
         $justify='space-between'
-        style={{ backgroundColor: 'red', flex: 1 }}
+        $maxWidth='400px'
+        style={{ flex: 1 }}
       >
-        <Column>
-          <TextInput value='hi' />
+        <Column $gap='16px'>
+          <Input label='Email address' value='Email address' />
+          <Input label='Password' value='Password' />
+          <Input label='Confirm Password' value='Confirm Password' />
+          <Input label='Phone number' value='Phone number' />
         </Column>
         <Column>
           <Button>Login</Button>

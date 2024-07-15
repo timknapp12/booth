@@ -6,4 +6,8 @@ export const bluePrimaryButton = '#03A9F4';
 
 export const white = '#FFFFFF';
 
-export const gray = '#BDBDBD';
+export const lightGray = '#BDBDBD';
+
+export const darkGray = '#757575';
+
+export const black = '#212121';

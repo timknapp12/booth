@@ -3,7 +3,9 @@ import {
   bluePrimaryBackground,
   bluePrimaryButton,
   white,
-  gray,
+  black,
+  darkGray,
+  lightGray,
 } from './colors';
 
 export const lightTheme = {
@@ -11,5 +13,7 @@ export const lightTheme = {
   secondaryHeaderBackground: blueLightBackground,
   primaryButton: bluePrimaryButton,
   primaryBackground: white,
-  disabled: gray,
+  primaryText: black,
+  secondaryText: darkGray,
+  disabled: lightGray,
 };

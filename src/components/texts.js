@@ -14,3 +14,8 @@ export const PrimaryButtonText = styled.Text`
   font-size: 16px;
   color: ${({ theme }) => theme.primaryBackground};
 `;
+
+export const Label = styled.Text`
+  font-size: 12px;
+  color: ${({ theme }) => theme.secondaryText};
+`;
