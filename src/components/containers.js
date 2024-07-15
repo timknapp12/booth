@@ -18,4 +18,9 @@ export const Column = styled.View`
   align-items: ${({ $align }) => $align || 'flex-start'};
   width: ${({ $width }) => $width || '100%'};
   height: ${({ $height }) => $height || 'auto'};
+  max-width: ${({ $maxWidth }) => $maxWidth || null};
+`;
+
+export const Gap = styled.View`
+  height: ${({ $height }) => $height || '12px'};
 `;
