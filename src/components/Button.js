@@ -12,8 +12,12 @@ const StyledButton = styled.TouchableOpacity`
   width: 100%;
 `;
 
-export const Button = ({ children, disabled }) => (
-  <StyledButton $disabled={disabled} activeOpacity={disabled ? 1 : 0.2}>
+export const Button = ({ children, disabled, ...props }) => (
+  <StyledButton
+    $disabled={disabled}
+    activeOpacity={disabled ? 1 : 0.2}
+    {...props}
+  >
     <PrimaryButtonText>{children}</PrimaryButtonText>
   </StyledButton>
 );

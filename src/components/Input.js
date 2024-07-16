@@ -24,6 +24,7 @@ const LabelContainer = styled.View`
 
 const StyledInput = styled.TextInput`
   color: ${(props) => props.theme.primaryText};
+  padding: 4px;
 `;
 
 export const Input = ({ label, ...props }) => {
