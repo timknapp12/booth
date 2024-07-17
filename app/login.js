@@ -12,8 +12,8 @@ import {
   Column,
   Input,
   Gap,
-} from '../components';
-import { useAppContext } from '../contexts/AppContext';
+} from '@/components';
+import { useAppContext } from '@/contexts/AppContext';
 
 const LoginScreen = () => {
   const {
@@ -56,11 +56,20 @@ const LoginScreen = () => {
                 label='Email address'
                 value={email}
                 onChangeText={(text) => setEmail(text)}
+                textContentType='username'
+                autoCapitalize='none'
+                keyboardType='email-address'
+                returnKeyType='next'
               />
               <Input
                 label='Password'
                 value={password}
                 onChangeText={(text) => setPassword(text)}
+                secureTextEntry={true}
+                textContentType='password'
+                autoCapitalize='none'
+                keyboardType='default'
+                returnKeyType='next'
               />
               {isNew && (
                 <>
@@ -68,11 +77,18 @@ const LoginScreen = () => {
                     label='Confirm Password'
                     value={confirmPassword}
                     onChangeText={(text) => setConfirmPassword(text)}
+                    secureTextEntry={true}
+                    textContentType='password'
+                    autoCapitalize='none'
+                    keyboardType='default'
+                    returnKeyType='next'
                   />
                   <Input
                     label='Phone number'
                     value={phoneNumber}
                     onChangeText={(text) => setPhoneNumber(text)}
+                    keyboardType='phone-pad'
+                    returnKeyType='go'
                   />
                 </>
               )}

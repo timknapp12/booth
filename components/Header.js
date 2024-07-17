@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAppContext } from '../contexts/AppContext';
+import { useAppContext } from '@/contexts/AppContext';
 import { HeaderText, HeaderTextSmall } from './texts';
 
 export const Header = ({ title, subTitle }) => {

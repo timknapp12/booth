@@ -1,5 +1,5 @@
 import { useContext, createContext, useState } from 'react';
-import { lightTheme } from '../constants/themes';
+import { lightTheme } from '@/constants/themes';
 import { ThemeProvider } from 'styled-components/native';
 
 const AppContext = createContext(null);
