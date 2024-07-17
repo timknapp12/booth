@@ -38,8 +38,20 @@ function AppNavigator() {
         lazy: true,
       }}
     >
-      <Stack.Screen name='index' />
-      <Stack.Screen name='login' />
+      <Stack.Screen
+        name='index'
+        options={{
+          gestureEnabled: false,
+          headerLeft: () => null,
+        }}
+      />
+      <Stack.Screen
+        name='login'
+        options={{
+          gestureEnabled: false,
+          headerLeft: () => null,
+        }}
+      />
     </Stack>
   );
 }
