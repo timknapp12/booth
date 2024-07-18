@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -28,6 +28,21 @@ const LoginScreen = () => {
   } = useAppContext();
 
   const [isNew, setIsNew] = useState(false);
+
+  const passwordRef = useRef(null);
+  const onNext = () => {
+    passwordRef.current.focus();
+  };
+
+  const confirmPasswordRef = useRef(null);
+  const onNextConfirm = () => {
+    confirmPasswordRef.current.focus();
+  };
+
+  const phoneNumberRef = useRef(null);
+  const onNextPhone = () => {
+    phoneNumberRef.current.focus();
+  };
 
   const onCreate = () => {
     if (!isNew) return setIsNew(true);
@@ -60,35 +75,40 @@ const LoginScreen = () => {
                 autoCapitalize='none'
                 keyboardType='email-address'
                 returnKeyType='next'
+                onSubmitEditing={onNext}
               />
               <Input
+                ref={passwordRef}
                 label='Password'
                 value={password}
                 onChangeText={(text) => setPassword(text)}
-                secureTextEntry={true}
                 textContentType='password'
                 autoCapitalize='none'
                 keyboardType='default'
                 returnKeyType='next'
+                onSubmitEditing={onNextConfirm}
               />
               {isNew && (
                 <>
                   <Input
+                    ref={confirmPasswordRef}
                     label='Confirm Password'
                     value={confirmPassword}
                     onChangeText={(text) => setConfirmPassword(text)}
-                    secureTextEntry={true}
                     textContentType='password'
                     autoCapitalize='none'
                     keyboardType='default'
                     returnKeyType='next'
+                    onSubmitEditing={onNextPhone}
                   />
                   <Input
+                    ref={phoneNumberRef}
                     label='Phone number'
                     value={phoneNumber}
                     onChangeText={(text) => setPhoneNumber(text)}
                     keyboardType='phone-pad'
                     returnKeyType='go'
+                    onSubmitEditing={onCreate}
                   />
                 </>
               )}
