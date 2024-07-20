@@ -4,6 +4,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -14,6 +15,7 @@ import {
   Gap,
 } from '@/components';
 import { useAppContext } from '@/contexts/AppContext';
+import useAuth from '@/hooks/useAuth';
 
 const LoginScreen = () => {
   const {
@@ -27,6 +29,11 @@ const LoginScreen = () => {
     setPhoneNumber,
   } = useAppContext();
 
+  const { signInWithEmail, signUpWithEmail, loading } = useAuth(
+    email,
+    password
+  );
+
   const [isNew, setIsNew] = useState(false);
 
   const passwordRef = useRef(null);
@@ -36,7 +43,8 @@ const LoginScreen = () => {
 
   const confirmPasswordRef = useRef(null);
   const onNextConfirm = () => {
-    confirmPasswordRef.current.focus();
+    if (isNew) return confirmPasswordRef.current.focus();
+    signInWithEmail();
   };
 
   const phoneNumberRef = useRef(null);
@@ -46,11 +54,17 @@ const LoginScreen = () => {
 
   const onCreate = () => {
     if (!isNew) return setIsNew(true);
+    if (password !== confirmPassword)
+      return Alert.alert(`Make sure your passwords match and try again!`);
+    signUpWithEmail();
   };
 
-  const loginDisabled = !email || !password;
+  // TODO - set up loading state for buttons
+
+  const loginDisabled = !email || !password || loading;
   const createDisabled =
-    isNew && (!email || !password || !confirmPassword || !phoneNumber);
+    loading ||
+    (isNew && (!email || !password || !confirmPassword || !phoneNumber));
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
@@ -114,7 +128,9 @@ const LoginScreen = () => {
               )}
             </Column>
             <Column>
-              <Button disabled={loginDisabled}>Login</Button>
+              <Button onPress={signInWithEmail} disabled={loginDisabled}>
+                Login
+              </Button>
               <Button onPress={onCreate} disabled={createDisabled}>
                 Create Account
               </Button>
