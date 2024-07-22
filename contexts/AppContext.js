@@ -27,7 +27,6 @@ const AppContextProvider = ({ children }) => {
         setUser(null);
       } else if (session) {
         const { user } = session;
-        console.log('Logged in user:', user);
 
         // TODO - set up users table
         const { data, error } = await supabase

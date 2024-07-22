@@ -22,5 +22,5 @@ export const Column = styled.View`
 `;
 
 export const Gap = styled.View`
-  height: ${({ $height }) => $height || '12px'};
+  height: ${({ $height }) => $height || '8px'};
 `;

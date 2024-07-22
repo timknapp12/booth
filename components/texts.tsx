@@ -19,3 +19,8 @@ export const Label = styled.Text`
   font-size: 12px;
   color: ${({ theme }) => theme.secondaryText};
 `;
+
+export const PrimaryText = styled.Text`
+  font-size: 16px;
+  color: ${({ theme }) => theme.primaryText};
+`;
