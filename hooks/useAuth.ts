@@ -1,35 +1,46 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
 import supabase from '@/utils/supabase';
 
-const useAuth = (email = '', password = '') => {
+const useAuth = (email = '', password = '', phoneNumber = '') => {
   const [loading, setLoading] = useState(false);
 
   const signInWithEmail = async () => {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email,
+      password,
     });
 
     if (error) {
-      Alert.alert(error.message);
+      console.error('Error signing in:', error.message);
     }
     setLoading(false);
   };
 
   const signUpWithEmail = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      }
+    );
 
-    if (error) {
-      Alert.alert(error.message);
-      console.log('error.message', error.message);
+    if (signUpError) {
+      console.error('Error signing up:', signUpError.message);
     } else {
-      Alert.alert('Please check your inbox for email verification!');
+      const userId = signUpData?.user?.id;
+
+      // Insert user data into the users table
+      const { error: insertError } = await supabase
+        .from('users')
+        .insert([{ id: userId, email: email, phone_number: phoneNumber }]);
+
+      if (insertError) {
+        console.error('Error inserting user data:', insertError);
+      } else {
+        console.log('User data inserted successfully');
+      }
     }
     setLoading(false);
   };

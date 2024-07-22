@@ -31,7 +31,8 @@ const LoginScreen = () => {
 
   const { signInWithEmail, signUpWithEmail, loading } = useAuth(
     email,
-    password
+    password,
+    phoneNumber
   );
 
   const [isNew, setIsNew] = useState(false);
