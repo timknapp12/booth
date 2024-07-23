@@ -7,8 +7,19 @@ import {
   Column,
   Gap,
 } from '@/components';
+import MultiSelect from '@/components/MultiSelect';
+import { useAppContext } from '@/contexts/AppContext';
+
+const items = [
+  { id: 0, value: 'investor', name: 'Investor' },
+  { id: 1, value: 'new_job', name: 'New Job' },
+  { id: 2, value: 'coach', name: 'Coach' },
+  { id: 3, value: 'friend', name: 'Friend' },
+  { id: 4, value: 'talent', name: 'Talent' },
+];
 
 export default function Index() {
+  const { lookingForItems, setLookingForItems } = useAppContext();
   return (
     <ScreenContainer>
       <Header title='booth' subTitle='A catalyst for connection' />
@@ -24,6 +35,12 @@ export default function Index() {
             What type of connection are you looking to make?
           </PrimaryText>
           <PrimaryText>I'm looking for:</PrimaryText>
+          <MultiSelect
+            items={items}
+            selectText='Select'
+            selectedItems={lookingForItems}
+            onSelectedItemsChange={setLookingForItems}
+          />
         </Column>
         <Column $width='80%'>
           <Link href='/login' asChild>

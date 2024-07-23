@@ -14,46 +14,47 @@ const AppContextProvider = ({ children }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [user, setUser] = useState(null);
+  const [lookingForItems, setLookingForItems] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+        if (sessionError)
+          throw new Error(`Session error: ${sessionError.message}`);
 
-      if (error) {
-        console.error('Error fetching session:', error);
-        setUser(null);
-      } else if (session) {
-        const { user } = session;
+        if (session) {
+          const { user } = session;
+          const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', user.id)
+            .single();
 
-        // TODO - set up users table
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', user.id)
-          .single();
+          if (userError)
+            throw new Error(`User fetch error: ${userError.message}`);
 
-        if (error) {
-          console.error('Error fetching user data:', error);
+          setUser(userData);
+          console.log('User data:', userData);
         } else {
-          console.log('User data:', data);
-          setUser(data);
+          console.log('No user is logged in');
+          setUser(null);
         }
-      } else {
-        console.log('No user is logged in');
+      } catch (error) {
+        console.error(error.message);
         setUser(null);
       }
     };
 
     fetchUserData();
 
-    // Optional: Set up a listener for auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session) {
-          setUser(session.user);
+          fetchUserData();
         } else {
           setUser(null);
         }
@@ -78,6 +79,8 @@ const AppContextProvider = ({ children }) => {
         phoneNumber,
         setPhoneNumber,
         user,
+        lookingForItems,
+        setLookingForItems,
       }}
     >
       <ThemeProvider theme={theme}>{children}</ThemeProvider>

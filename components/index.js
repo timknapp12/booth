@@ -3,3 +3,4 @@ export * from './texts';
 export * from './containers';
 export * from './Button';
 export * from './Input';
+export * from './MultiSelect';
