@@ -27,14 +27,16 @@ const LoginScreen = () => {
     setConfirmPassword,
     phoneNumber,
     setPhoneNumber,
+    setUser,
   } = useAppContext();
 
   const { signInWithEmail, signUpWithEmail, loading } = useAuth(
     email,
     password,
-    phoneNumber
+    phoneNumber,
+    setUser
   );
-
+  // TODO - login with new user to test sign up
   const [isNew, setIsNew] = useState(false);
 
   const passwordRef = useRef(null);

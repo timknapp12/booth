@@ -19,6 +19,7 @@
     "app/index.js",
     "contexts/AppContext.js",
     "components/index.js",
-    "app/login.jsx"
+    "app/login.jsx",
+    "hooks/useAuth.js"
   ]
 }

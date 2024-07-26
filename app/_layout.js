@@ -3,6 +3,7 @@ import { useNavigation } from 'expo-router';
 import AppContextProvider, { useAppContext } from '@/contexts/AppContext';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import 'expo-dev-client';
 
 SplashScreen.preventAutoHideAsync();
 
