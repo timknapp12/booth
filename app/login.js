@@ -1,17 +1,12 @@
 import { useState, useRef } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Alert,
-} from 'react-native';
+import { KeyboardAvoidingView, Platform, Keyboard, Alert } from 'react-native';
 import {
   ScreenContainer,
   Header,
   Button,
   Column,
   Input,
+  NoFeedbackButton,
   Gap,
 } from '@/components';
 import { useAppContext } from '@/contexts/AppContext';
@@ -69,14 +64,14 @@ const LoginScreen = () => {
     loading ||
     (isNew && (!email || !password || !confirmPassword || !phoneNumber));
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <NoFeedbackButton onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScreenContainer>
           <Header title='booth' subTitle='A catalyst for connection' />
-          <Gap />
+          <Gap $height='16px' />
           <Column
             $width='80%'
             $justify='space-between'
@@ -141,7 +136,7 @@ const LoginScreen = () => {
           </Column>
         </ScreenContainer>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </NoFeedbackButton>
   );
 };
 

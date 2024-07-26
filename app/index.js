@@ -1,3 +1,4 @@
+import { Keyboard } from 'react-native';
 import { Link } from 'expo-router';
 import {
   ScreenContainer,
@@ -6,6 +7,8 @@ import {
   Button,
   Column,
   Gap,
+  Input,
+  NoFeedbackButton,
 } from '@/components';
 import MultiSelect from '@/components/MultiSelect';
 import { useAppContext } from '@/contexts/AppContext';
@@ -21,33 +24,37 @@ const items = [
 export default function Index() {
   const { lookingForItems, setLookingForItems } = useAppContext();
   return (
-    <ScreenContainer>
-      <Header title='booth' subTitle='A catalyst for connection' />
-      <Column
-        style={{ flex: 1 }}
-        $width='90%'
-        $justify='space-between'
-        $align='center'
-      >
-        <Column>
-          <Gap />
-          <PrimaryText>
-            What type of connection are you looking to make?
-          </PrimaryText>
-          <PrimaryText>I'm looking for:</PrimaryText>
-          <MultiSelect
-            items={items}
-            selectText='Select'
-            selectedItems={lookingForItems}
-            onSelectedItemsChange={setLookingForItems}
-          />
+    <NoFeedbackButton onPress={Keyboard.dismiss}>
+      <ScreenContainer>
+        <Header title='booth' subTitle='A catalyst for connection' />
+        <Column
+          style={{ flex: 1 }}
+          $width='90%'
+          $justify='space-between'
+          $align='center'
+        >
+          <Column>
+            <Gap />
+            <PrimaryText>
+              What type of connection are you looking to make?
+            </PrimaryText>
+            <PrimaryText>I'm looking for:</PrimaryText>
+            <MultiSelect
+              items={items}
+              selectText='Select'
+              selectedItems={lookingForItems}
+              onSelectedItemsChange={setLookingForItems}
+            />
+          </Column>
+          <Input label='linked in' />
+
+          <Column $width='80%'>
+            <Link href='/login' asChild>
+              <Button>Find Connections</Button>
+            </Link>
+          </Column>
         </Column>
-        <Column $width='80%'>
-          <Link href='/login' asChild>
-            <Button>Find Connections</Button>
-          </Link>
-        </Column>
-      </Column>
-    </ScreenContainer>
+      </ScreenContainer>
+    </NoFeedbackButton>
   );
 }

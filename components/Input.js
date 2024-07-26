@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Label } from './texts';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Container = styled.TouchableOpacity`
+const Container = styled.Pressable`
   border-color: ${(props) => props.theme.secondaryText};
   border-width: 1px;
   border-style: solid;

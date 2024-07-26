@@ -20,6 +20,7 @@
     "contexts/AppContext.js",
     "components/index.js",
     "app/login.jsx",
-    "hooks/useAuth.js"
+    "hooks/useAuth.js",
+    "utils/supabase.js"
   ]
 }
