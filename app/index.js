@@ -14,15 +14,34 @@ import MultiSelect from '@/components/MultiSelect';
 import { useAppContext } from '@/contexts/AppContext';
 
 const items = [
-  { id: 0, value: 'investor', name: 'Investor' },
-  { id: 1, value: 'new_job', name: 'New Job' },
-  { id: 2, value: 'coach', name: 'Coach' },
-  { id: 3, value: 'friend', name: 'Friend' },
-  { id: 4, value: 'talent', name: 'Talent' },
+  { id: 0, name: 'Investor' },
+  { id: 1, name: 'New Job' },
+  { id: 2, name: 'Coach' },
+  { id: 3, name: 'Friend' },
+  { id: 4, name: 'Talent' },
+];
+
+const industryItems = [
+  { id: 0, name: 'Software Development' },
+  { id: 1, name: 'Retail' },
+  { id: 2, name: 'Food' },
+  { id: 3, name: 'Recreation' },
+  { id: 4, name: 'Entertainment' },
 ];
 
 export default function Index() {
-  const { lookingForItems, setLookingForItems } = useAppContext();
+  const {
+    name,
+    setName,
+    linkedInUrl,
+    setLinkedInUrl,
+    lookingForItems,
+    setLookingForItems,
+    lookingForIndustries,
+    setLookingForIndustries,
+  } = useAppContext();
+
+  const onNext = () => {};
   return (
     <NoFeedbackButton onPress={Keyboard.dismiss}>
       <ScreenContainer>
@@ -33,24 +52,39 @@ export default function Index() {
           $justify='space-between'
           $align='center'
         >
-          <Column>
+          <Column $gap='12px'>
             <Gap />
-            <PrimaryText>
-              What type of connection are you looking to make?
-            </PrimaryText>
-            <PrimaryText>I'm looking for:</PrimaryText>
+            <PrimaryText>Tell us a little about yourself:</PrimaryText>
+            <Input
+              label='Name'
+              value={name}
+              onChangeText={(text) => setName(text)}
+              returnKeyType='next'
+              onSubmitEditing={onNext}
+            />
+            <Input
+              label='LinkedIn Profile'
+              value={linkedInUrl}
+              onChangeText={(text) => setLinkedInUrl(text)}
+              returnKeyType='done'
+            />
             <MultiSelect
               items={items}
-              selectText='Select'
+              selectText='<What describes you?>'
               selectedItems={lookingForItems}
               onSelectedItemsChange={setLookingForItems}
             />
+            <MultiSelect
+              items={industryItems}
+              selectText='<In what industry?>'
+              selectedItems={lookingForIndustries}
+              onSelectedItemsChange={setLookingForIndustries}
+            />
           </Column>
-          <Input label='linked in' />
 
           <Column $width='80%'>
-            <Link href='/login' asChild>
-              <Button>Find Connections</Button>
+            <Link href='/looking-for' asChild>
+              <Button>Submit</Button>
             </Link>
           </Column>
         </Column>

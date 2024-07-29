@@ -53,6 +53,13 @@ function AppNavigator() {
           headerLeft: () => null,
         }}
       />
+      <Stack.Screen
+        name='looking-for'
+        options={{
+          gestureEnabled: false,
+          headerLeft: () => null,
+        }}
+      />
     </Stack>
   );
 }

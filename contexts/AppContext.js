@@ -14,8 +14,13 @@ const AppContextProvider = ({ children }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [user, setUser] = useState(null);
-  const [lookingForItems, setLookingForItems] = useState([]);
 
+  const [name, setName] = useState('');
+  const [linkedInUrl, setLinkedInUrl] = useState('');
+  const [lookingForItems, setLookingForItems] = useState([]);
+  // console.log('lookingForItems', lookingForItems);
+  const [lookingForIndustries, setLookingForIndustries] = useState([]);
+  // console.log('lookingForIndustries', lookingForIndustries);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -38,7 +43,7 @@ const AppContextProvider = ({ children }) => {
             throw new Error(`User fetch error: ${userError.message}`);
 
           setUser(userData);
-          console.log('User data:', userData);
+          // console.log('User data:', userData);
         } else {
           console.log('No user is logged in');
           setUser(null);
@@ -81,6 +86,12 @@ const AppContextProvider = ({ children }) => {
         user,
         lookingForItems,
         setLookingForItems,
+        name,
+        setName,
+        linkedInUrl,
+        setLinkedInUrl,
+        lookingForIndustries,
+        setLookingForIndustries,
       }}
     >
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
