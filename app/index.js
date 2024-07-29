@@ -1,4 +1,4 @@
-import { Keyboard } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import {
   ScreenContainer,
@@ -13,22 +13,6 @@ import {
 import MultiSelect from '@/components/MultiSelect';
 import { useAppContext } from '@/contexts/AppContext';
 
-const items = [
-  { id: 0, name: 'Investor' },
-  { id: 1, name: 'New Job' },
-  { id: 2, name: 'Coach' },
-  { id: 3, name: 'Friend' },
-  { id: 4, name: 'Talent' },
-];
-
-const industryItems = [
-  { id: 0, name: 'Software Development' },
-  { id: 1, name: 'Retail' },
-  { id: 2, name: 'Food' },
-  { id: 3, name: 'Recreation' },
-  { id: 4, name: 'Entertainment' },
-];
-
 export default function Index() {
   const {
     name,
@@ -39,9 +23,21 @@ export default function Index() {
     setLookingForItems,
     lookingForIndustries,
     setLookingForIndustries,
+    roles,
+    industries,
+    loadingRoles,
   } = useAppContext();
 
   const onNext = () => {};
+
+  // TODO - add real loading state
+  if (loadingRoles)
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+
   return (
     <NoFeedbackButton onPress={Keyboard.dismiss}>
       <ScreenContainer>
@@ -60,6 +56,7 @@ export default function Index() {
               value={name}
               onChangeText={(text) => setName(text)}
               returnKeyType='next'
+              placeholder='<Enter your name>'
               onSubmitEditing={onNext}
             />
             <Input
@@ -67,15 +64,16 @@ export default function Index() {
               value={linkedInUrl}
               onChangeText={(text) => setLinkedInUrl(text)}
               returnKeyType='done'
+              placeholder='<Enter LinkedIn Profile URL>'
             />
             <MultiSelect
-              items={items}
+              items={roles}
               selectText='<What describes you?>'
               selectedItems={lookingForItems}
               onSelectedItemsChange={setLookingForItems}
             />
             <MultiSelect
-              items={industryItems}
+              items={industries}
               selectText='<In what industry?>'
               selectedItems={lookingForIndustries}
               onSelectedItemsChange={setLookingForIndustries}
