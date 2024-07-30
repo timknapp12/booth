@@ -1,4 +1,4 @@
-import { Keyboard, Text, View } from 'react-native';
+import { Keyboard } from 'react-native';
 import { Link } from 'expo-router';
 import {
   ScreenContainer,
@@ -13,7 +13,15 @@ import {
 import MultiSelect from '@/components/MultiSelect';
 import { useAppContext } from '@/contexts/AppContext';
 
-export default function Index() {
+const items = [
+  { id: 0, value: 'investor', name: 'Investor' },
+  { id: 1, value: 'new_job', name: 'New Job' },
+  { id: 2, value: 'coach', name: 'Coach' },
+  { id: 3, value: 'friend', name: 'Friend' },
+  { id: 4, value: 'talent', name: 'Talent' },
+];
+
+export default function LookingFor() {
   const {
     name,
     setName,
@@ -23,21 +31,9 @@ export default function Index() {
     setLookingForItems,
     lookingForIndustries,
     setLookingForIndustries,
-    roles,
-    industries,
-    loadingRoles,
   } = useAppContext();
 
   const onNext = () => {};
-
-  // TODO - add real loading state
-  if (loadingRoles)
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
-
   return (
     <NoFeedbackButton onPress={Keyboard.dismiss}>
       <ScreenContainer>
@@ -50,13 +46,15 @@ export default function Index() {
         >
           <Column $gap='12px'>
             <Gap />
-            <PrimaryText>Tell us a little about yourself:</PrimaryText>
+            <PrimaryText>
+              What type of connection are you looking to make?
+            </PrimaryText>
+            <PrimaryText>I'm looking for:</PrimaryText>
             <Input
               label='Name'
               value={name}
               onChangeText={(text) => setName(text)}
               returnKeyType='next'
-              placeholder='<Enter your name>'
               onSubmitEditing={onNext}
             />
             <Input
@@ -64,25 +62,24 @@ export default function Index() {
               value={linkedInUrl}
               onChangeText={(text) => setLinkedInUrl(text)}
               returnKeyType='done'
-              placeholder='<Enter LinkedIn Profile URL>'
             />
             <MultiSelect
-              items={roles}
-              selectText='<What describes you?>'
+              items={items}
+              selectText='<I am looking for>'
               selectedItems={lookingForItems}
               onSelectedItemsChange={setLookingForItems}
             />
             <MultiSelect
-              items={industries}
-              selectText='<In what industry?>'
+              items={items}
+              selectText='<In what industry>'
               selectedItems={lookingForIndustries}
               onSelectedItemsChange={setLookingForIndustries}
             />
           </Column>
 
           <Column $width='80%'>
-            <Link href='/looking-for' asChild>
-              <Button>Submit</Button>
+            <Link href='/login' asChild>
+              <Button>Find Connections</Button>
             </Link>
           </Column>
         </Column>

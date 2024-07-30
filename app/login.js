@@ -1,19 +1,16 @@
-import { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import { useState, useRef } from 'react';
+import { KeyboardAvoidingView, Platform, Keyboard, Alert } from 'react-native';
 import {
   ScreenContainer,
   Header,
   Button,
   Column,
   Input,
+  NoFeedbackButton,
   Gap,
 } from '@/components';
 import { useAppContext } from '@/contexts/AppContext';
+import useAuth from '@/hooks/useAuth';
 
 const LoginScreen = () => {
   const {
@@ -25,26 +22,56 @@ const LoginScreen = () => {
     setConfirmPassword,
     phoneNumber,
     setPhoneNumber,
+    setUser,
   } = useAppContext();
 
+  const { signInWithEmail, signUpWithEmail, loading } = useAuth(
+    email,
+    password,
+    phoneNumber,
+    setUser
+  );
+  // TODO - login with new user to test sign up
   const [isNew, setIsNew] = useState(false);
+
+  const passwordRef = useRef(null);
+  const onNext = () => {
+    passwordRef.current.focus();
+  };
+
+  const confirmPasswordRef = useRef(null);
+  const onNextConfirm = () => {
+    if (isNew) return confirmPasswordRef.current.focus();
+    signInWithEmail();
+  };
+
+  const phoneNumberRef = useRef(null);
+  const onNextPhone = () => {
+    phoneNumberRef.current.focus();
+  };
 
   const onCreate = () => {
     if (!isNew) return setIsNew(true);
+    if (password !== confirmPassword)
+      return Alert.alert(`Make sure your passwords match and try again!`);
+    signUpWithEmail();
   };
 
-  const loginDisabled = !email || !password;
+  // TODO - set up loading state for buttons
+
+  const loginDisabled = !email || !password || loading;
   const createDisabled =
-    isNew && (!email || !password || !confirmPassword || !phoneNumber);
+    loading ||
+    (isNew && (!email || !password || !confirmPassword || !phoneNumber));
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <NoFeedbackButton onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScreenContainer>
           <Header title='booth' subTitle='A catalyst for connection' />
-          <Gap />
+          <Gap $height='16px' />
           <Column
             $width='80%'
             $justify='space-between'
@@ -60,41 +87,48 @@ const LoginScreen = () => {
                 autoCapitalize='none'
                 keyboardType='email-address'
                 returnKeyType='next'
+                onSubmitEditing={onNext}
               />
               <Input
+                ref={passwordRef}
                 label='Password'
                 value={password}
                 onChangeText={(text) => setPassword(text)}
-                secureTextEntry={true}
                 textContentType='password'
                 autoCapitalize='none'
                 keyboardType='default'
                 returnKeyType='next'
+                onSubmitEditing={onNextConfirm}
               />
               {isNew && (
                 <>
                   <Input
+                    ref={confirmPasswordRef}
                     label='Confirm Password'
                     value={confirmPassword}
                     onChangeText={(text) => setConfirmPassword(text)}
-                    secureTextEntry={true}
                     textContentType='password'
                     autoCapitalize='none'
                     keyboardType='default'
                     returnKeyType='next'
+                    onSubmitEditing={onNextPhone}
                   />
                   <Input
+                    ref={phoneNumberRef}
                     label='Phone number'
                     value={phoneNumber}
                     onChangeText={(text) => setPhoneNumber(text)}
                     keyboardType='phone-pad'
                     returnKeyType='go'
+                    onSubmitEditing={onCreate}
                   />
                 </>
               )}
             </Column>
             <Column>
-              <Button disabled={loginDisabled}>Login</Button>
+              <Button onPress={signInWithEmail} disabled={loginDisabled}>
+                Login
+              </Button>
               <Button onPress={onCreate} disabled={createDisabled}>
                 Create Account
               </Button>
@@ -102,7 +136,7 @@ const LoginScreen = () => {
           </Column>
         </ScreenContainer>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </NoFeedbackButton>
   );
 };
 
