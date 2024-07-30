@@ -2,6 +2,7 @@ import { useContext, createContext, useState, useEffect } from 'react';
 import { lightTheme } from '@/constants/themes';
 import { ThemeProvider } from 'styled-components/native';
 import supabase from '@/utils/supabase';
+import useGetRoles from '../hooks/useGetRoles';
 
 const AppContext = createContext(null);
 
@@ -14,13 +15,13 @@ const AppContextProvider = ({ children }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [user, setUser] = useState(null);
+  // console.log('user', user);
 
   const [name, setName] = useState('');
   const [linkedInUrl, setLinkedInUrl] = useState('');
   const [lookingForItems, setLookingForItems] = useState([]);
-  // console.log('lookingForItems', lookingForItems);
   const [lookingForIndustries, setLookingForIndustries] = useState([]);
-  // console.log('lookingForIndustries', lookingForIndustries);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -43,7 +44,6 @@ const AppContextProvider = ({ children }) => {
             throw new Error(`User fetch error: ${userError.message}`);
 
           setUser(userData);
-          // console.log('User data:', userData);
         } else {
           console.log('No user is logged in');
           setUser(null);
@@ -66,11 +66,32 @@ const AppContextProvider = ({ children }) => {
       }
     );
 
-    return () => {
-      if (authListener?.unsubscribe) authListener?.unsubscribe();
-    };
-  }, []);
+    const userListener = supabase
+      .channel('public:users')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'users',
+          filter: `id=eq.${user?.id}`,
+        },
+        (payload) => {
+          if (payload.new.id === user?.id) {
+            setUser(payload.new);
+          }
+        }
+      )
+      .subscribe();
 
+    return () => {
+      if (authListener?.unsubscribe) authListener.unsubscribe();
+      if (userListener) supabase.removeChannel(userListener);
+    };
+  }, [user?.id]);
+
+  // get roles and industries from supbase
+  const { roles, industries, loadingRoles } = useGetRoles();
   return (
     <AppContext.Provider
       value={{
@@ -92,6 +113,9 @@ const AppContextProvider = ({ children }) => {
         setLinkedInUrl,
         lookingForIndustries,
         setLookingForIndustries,
+        roles,
+        industries,
+        loadingRoles,
       }}
     >
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
